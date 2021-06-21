@@ -22,7 +22,7 @@ class Clean_Tweets:
         """
         drop duplicate rows
         """
-        df.drop_duplicates()
+        df.drop_duplicates(['screen_name','original_text','created_at'],keep="first")
         
         return df
     def convert_to_datetime(self, df:pd.DataFrame)->pd.DataFrame:
