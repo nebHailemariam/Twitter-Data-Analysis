@@ -22,6 +22,7 @@ class Clean_Tweets:
         """
         drop duplicate rows
         """
+
         df.drop_duplicates(['screen_name','original_text','created_at'],keep="first")
         
         return df
@@ -29,7 +30,8 @@ class Clean_Tweets:
         """
         convert column to datetime
         """
-        df['Date'] = pd.to_datetime(self.df['created_at'], errors='')
+
+        df['created_at'] = pd.to_datetime(df['created_at'])
         
         df = df[df['created_at'] >= '2020-12-31' ]
         
@@ -40,7 +42,22 @@ class Clean_Tweets:
         convert columns like polarity, subjectivity, retweet_count
         favorite_count etc to numbers
         """
-        df['polarity', 'subjectivity', 'retweet_count', 'favorite_count'] = pd.to_numeric(df['polarity', 'subjectivity','retweet_count', 'favorite_count'])
+
+        df['screen_count'] = pd.to_numeric(df['screen_count'])
+
+        df['friends_count'] = pd.to_numeric(df['friends_count'])
+        
+        df['subjectivity'] = pd.to_numeric(df['subjectivity'])
+
+        df['followers_count'] = pd.to_numeric(df['followers_count'])
+        
+        df['polarity'] = pd.to_numeric(df['polarity'])
+
+        df['retweet_count'] = pd.to_numeric(df['retweet_count'])
+        
+        df['favorite_count'] = pd.to_numeric(df['favorite_count'])
+
+
         
         return df
     
