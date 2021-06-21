@@ -32,32 +32,29 @@ class TweetDfExtractor:
     def __init__(self, tweets_list):
         
         self.tweets_list = tweets_list
+        self.df = pd.json_normalize(tweets_list)
 
     # an example function
     def find_statuses_count(self)->list:
-        statuses_count = None
+        statuses_count = self.df['user.statuses_count'].to_list()
+        return statuses_count
         
     def find_full_text(self)->list:
-        text = []
-        for tweet in self.tweet_list:
-            text.append(tweet["full_text"])
-    
+        text = self.df['text'].to_list()
         return text
        
     
     def find_sentiments(self, text)->list:
-        
-        return self.polarity, self.subjectivity
+        polarity = [TextBlob(text).sentiment.polarity for text in text_list]
+        subjectivity = [TextBlob(text).sentiment.subjectivity for text in text_list]
+        return polarity, subjectivity
 
     def find_created_time(self)->list:
-        created_at = []
-        for date in self.tweet_list:
-            created_at.append(date["created_at"])
+        created_at = self.df['created_at'].to_list()
         return created_at
 
     def find_source(self)->list:
-        source = 
-
+        source = self.df['source'].to_list()
         return source
 
     def find_screen_name(self)->list:
@@ -135,10 +132,8 @@ if __name__ == "__main__":
     # required column to be generated you should be creative and add more features
     columns = ['created_at', 'source', 'original_text','clean_text', 'sentiment','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
     'original_author', 'screen_count', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-    _, tweet_list = read_json("./data/covid19.json")
+    _, tweet_list = read_json("../covid19.json")
     tweet = TweetDfExtractor(tweet_list)
     tweet_df = tweet.get_tweet_df() 
 
     # use all defined functions to generate a dataframe with the specified columns above
-
-    
