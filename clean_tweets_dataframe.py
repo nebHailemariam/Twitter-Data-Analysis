@@ -1,6 +1,4 @@
-import json
 import pandas as pd
-from textblob import TextBlob
     
 class Clean_Tweets:
     """
